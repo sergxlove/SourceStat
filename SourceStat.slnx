@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SourceStat.Core/SourceStat.Core.csproj" />
+  <Project Path="SourceStat/SourceStat.csproj" />
+</Solution>
