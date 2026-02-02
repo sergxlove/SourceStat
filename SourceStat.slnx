@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="SourceStat.Core/SourceStat.Core.csproj" />
+  <Project Path="SourceStat.GraphicalApp/SourceStat.GraphicalApp.csproj" Id="57a31812-a852-4f51-86d2-e9b1ff6ba53b" />
   <Project Path="SourceStat/SourceStat.csproj" />
 </Solution>
