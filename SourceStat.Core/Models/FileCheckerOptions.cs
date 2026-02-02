@@ -2,60 +2,60 @@
 {
     public class FileCheckerOptions
     {
-        private HashSet<string> _ignoreDirectories { get; }
-        private List<string> _selectExtensions { get; }
-        private List<string> _defaultIgnore = new List<string>()
+        public HashSet<string> IgnoreDirectories { get; private set; }
+        public List<string> SelectExtensions { get; private set; }
+        public List<string> DefaultIgnore { get; private set; } = new List<string>()
         {
             "bin", "obj", ".git", ".vs", "Debug", "Release"
         };
 
         public FileCheckerOptions()
         {
-            _ignoreDirectories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            _selectExtensions = new List<string>();
+            IgnoreDirectories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            SelectExtensions = new List<string>();
         }
         
         public void AddExtension(AviableLanguage language)
         {
-            _selectExtensions.AddRange(AviableExtensions.GetExtensions(language));
+            SelectExtensions.AddRange(AviableExtensions.GetExtensions(language));
         }
 
         public void RemoveExtension(AviableLanguage language)
         {
             foreach(string ex in AviableExtensions.GetExtensions(language))
             {
-                _selectExtensions.Remove(ex);
+                SelectExtensions.Remove(ex);
             }
         }
 
         public void ClearExtension()
         {
-            _selectExtensions.Clear();
+            SelectExtensions.Clear();
         }
 
         public void AddIgnoreDirectories(string ignoreDirectory)
         {
-            _ignoreDirectories.Add(ignoreDirectory);
+            IgnoreDirectories.Add(ignoreDirectory);
         }
         
         public void RemoveIgnoreDirectories(string ignoreDirectory)
         {
-            _ignoreDirectories.Remove(ignoreDirectory);
+            IgnoreDirectories.Remove(ignoreDirectory);
         }
 
         public void SetDefaultIgnores()
         {
-            foreach(string str in  _defaultIgnore)
+            foreach(string str in  DefaultIgnore)
             {
-                _ignoreDirectories.Add(str);
+                IgnoreDirectories.Add(str);
             }
         }
 
         public void RemoveDefaultIgnores()
         {
-            foreach (string str in _defaultIgnore)
+            foreach (string str in DefaultIgnore)
             {
-                _ignoreDirectories.Remove(str);
+                IgnoreDirectories.Remove(str);
             }
         }
     }
