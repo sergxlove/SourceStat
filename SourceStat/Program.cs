@@ -1,4 +1,5 @@
-﻿using SourceStat.Core.Models;
+﻿using SourceStat.Cases;
+using SourceStat.Models;
 
 namespace SourceStat
 {
@@ -6,8 +7,17 @@ namespace SourceStat
     {
         static void Main(string[] args)
         {
-            FileChecker f = new FileChecker();
-            Console.WriteLine(f.GetCountLineInFiles("D:\\projects\\projects\\SourceStat", "*.cs"));
+            ExecuteCommandCore cmd = new();
+            cmd.AddRange(ConsoleCases.UseConsoleCases());
+            string commandLine = string.Empty;
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Write($"USER > ");
+                commandLine = Console.ReadLine()!;
+                if (commandLine == "exit") exit = true;
+                cmd.ExecuteCommand(commandLine);
+            }
         }
     }
 }

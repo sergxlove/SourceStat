@@ -4,6 +4,7 @@
     {
         public HashSet<string> IgnoreDirectories { get; private set; }
         public List<string> SelectExtensions { get; private set; }
+        public List<AviableLanguage> SelectLanguages { get; private set; }
         public List<string> DefaultIgnore { get; private set; } = new List<string>()
         {
             "bin", "obj", ".git", ".vs", "Debug", "Release"
@@ -13,11 +14,13 @@
         {
             IgnoreDirectories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             SelectExtensions = new List<string>();
+            SelectLanguages = new List<AviableLanguage>();
         }
         
         public void AddExtension(AviableLanguage language)
         {
             SelectExtensions.AddRange(AviableExtensions.GetExtensions(language));
+            SelectLanguages.Add(language);
         }
 
         public void RemoveExtension(AviableLanguage language)
@@ -26,6 +29,7 @@
             {
                 SelectExtensions.Remove(ex);
             }
+            SelectLanguages.Remove(language);
         }
 
         public void ClearExtension()
