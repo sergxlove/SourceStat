@@ -6,7 +6,7 @@ namespace SourceStat.Models
     {
         public List<ICommand> Commands { get; } = [];
 
-        public void ExecuteCommand(string command)
+        public void ExecuteCommand(string command, DataCore data)
         {
             string[] parts = command.Split(' ');
             string cmdName = parts[0];
@@ -14,7 +14,7 @@ namespace SourceStat.Models
             var cmd = Commands.FirstOrDefault(a => a.Name == cmdName);
             if (cmd != null)
             {
-                cmd.Execute(args);
+                cmd.Execute(args, data);
             }
         }
 
