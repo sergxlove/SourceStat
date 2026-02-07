@@ -3,38 +3,27 @@
     public class FileCheckerOptions
     {
         public HashSet<string> IgnoreDirectories { get; private set; }
-        public List<string> SelectExtensions { get; private set; }
-        public List<AviableLanguage> SelectLanguages { get; private set; }
+        public List<AvailableLanguage> SelectLanguages { get; private set; }
         public List<string> DefaultIgnore { get; private set; } = new List<string>()
         {
             "bin", "obj", ".git", ".vs", "Debug", "Release"
         };
+        public bool IsAddDefault { get; private set; } = false;
 
         public FileCheckerOptions()
         {
             IgnoreDirectories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            SelectExtensions = new List<string>();
-            SelectLanguages = new List<AviableLanguage>();
+            SelectLanguages = new List<AvailableLanguage>();
         }
-        
-        public void AddExtension(AviableLanguage language)
+
+        public void AddLanguage(AvailableLanguage language)
         {
-            SelectExtensions.AddRange(AviableExtensions.GetExtensions(language));
             SelectLanguages.Add(language);
         }
 
-        public void RemoveExtension(AviableLanguage language)
+        public void RemoveLanguage(AvailableLanguage language)
         {
-            foreach(string ex in AviableExtensions.GetExtensions(language))
-            {
-                SelectExtensions.Remove(ex);
-            }
-            SelectLanguages.Remove(language);
-        }
-
-        public void ClearExtension()
-        {
-            SelectExtensions.Clear();
+            SelectLanguages.Remove(language); 
         }
 
         public void AddIgnoreDirectories(string ignoreDirectory)
@@ -49,10 +38,11 @@
 
         public void SetDefaultIgnores()
         {
-            foreach(string str in  DefaultIgnore)
+            foreach(string str in DefaultIgnore)
             {
                 IgnoreDirectories.Add(str);
             }
+            IsAddDefault = true;
         }
 
         public void RemoveDefaultIgnores()
@@ -61,6 +51,7 @@
             {
                 IgnoreDirectories.Remove(str);
             }
+            IsAddDefault = false;
         }
     }
 }
