@@ -5,12 +5,17 @@
         public static long GetCountFiles(string directory, FileCheckerOptions options)
         {
             long fileCount = 0;
-            foreach(string extensions in options.SelectExtensions)
+            List<string> extensionsAll;
+            foreach (AvailableLanguage lang in options.SelectLanguages)
             {
-                foreach(string file in Directory.EnumerateFiles(directory, extensions, 
-                    SearchOption.AllDirectories))
+                extensionsAll = AvailableExtensions.GetExtensions(lang);
+                foreach (string extensions in extensionsAll)
                 {
-                    if(!IsInIgnoredDir(file, options)) fileCount++;
+                    foreach (string file in Directory.EnumerateFiles(directory, extensions,
+                        SearchOption.AllDirectories))
+                    {
+                        if (!IsInIgnoredDir(file, options)) fileCount++;
+                    }
                 }
             }
             return fileCount;
@@ -20,15 +25,20 @@
         {
             long lineCount = 0;
             string[] lines;
-            foreach (string extensions in options.SelectExtensions)
+            List<string> extensionsAll;
+            foreach (AvailableLanguage lang in options.SelectLanguages)
             {
-                foreach (string file in Directory.EnumerateFiles(directory, extensions, 
-                    SearchOption.AllDirectories))
+                extensionsAll = AvailableExtensions.GetExtensions(lang);
+                foreach (string extensions in extensionsAll)
                 {
-                    if (!IsInIgnoredDir(file, options))
+                    foreach (string file in Directory.EnumerateFiles(directory, extensions,
+                    SearchOption.AllDirectories))
                     {
-                        lines = File.ReadAllLines(file);
-                        lineCount += lines.Length;
+                        if (!IsInIgnoredDir(file, options))
+                        {
+                            lines = File.ReadAllLines(file);
+                            lineCount += lines.Length;
+                        }
                     }
                 }
             }
@@ -43,7 +53,7 @@
             string[] folders = directory.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             foreach (string folder in folders)
             {
-                if(options.IgnoreDirectories.Contains(folder))
+                if (options.IgnoreDirectories.Contains(folder))
                 {
                     return true;
                 }

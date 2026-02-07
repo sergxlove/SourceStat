@@ -8,6 +8,7 @@ namespace SourceStat
         static void Main(string[] args)
         {
             ExecuteCommandCore cmd = new();
+            DataCore data = new DataCore();
             cmd.AddRange(ConsoleCases.UseConsoleCases());
             string commandLine = string.Empty;
             bool exit = false;
@@ -16,7 +17,7 @@ namespace SourceStat
                 Console.Write($"USER > ");
                 commandLine = Console.ReadLine()!;
                 if (commandLine == "exit") exit = true;
-                cmd.ExecuteCommand(commandLine);
+                cmd.ExecuteCommand(commandLine, data);
             }
         }
     }
