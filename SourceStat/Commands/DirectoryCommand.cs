@@ -24,7 +24,7 @@ namespace SourceStat.Commands
             {
                 if(!data.Options.IgnoreDirectories.Any())
                 {
-                    Console.WriteLine("Нет игнорируемых директорий");
+                    Console.WriteLine("\nНет игнорируемых директорий\n");
                 }
                 Console.WriteLine("\nИгнорируемые директории: ");
                 foreach (string dir in data.Options.IgnoreDirectories)
@@ -42,42 +42,44 @@ namespace SourceStat.Commands
                     case "--add":
                         if (item.Value == string.Empty)
                         {
-                            Console.WriteLine("Аргумент не может быть пустым");
+                            Console.WriteLine("\nАргумент не может быть пустым.\n" +
+                                "Для получения дополнительной информации воспользуйтесь командой: ? dir\n");
                             break;
                         }
                         if (data.Options.IgnoreDirectories.Contains(item.Value))
                         {
-                            Console.WriteLine("Игнорируемая директория уже добавлена");
+                            Console.WriteLine("\nИгнорируемая директория уже добавлена\n");
                             break;
                         }
                         data.Options.AddIgnoreDirectories(item.Value);
-                        Console.WriteLine("Игнорируемая директория успешно добавлена ");
+                        Console.WriteLine("\nИгнорируемая директория успешно добавлена\n");
                         break;
                     case "-d":
                     case "--delete":
                         if (item.Value == string.Empty)
                         {
-                            Console.WriteLine("Аргумент не может быть пустым");
+                            Console.WriteLine("\nАргумент не может быть пустым.\n" +
+                                "Для получения дополнительной информации воспользуйтесь командой: ? dir\n");
                             break;
                         }
                         if (data.Options.IgnoreDirectories.Contains(item.Value))
                         {
-                            Console.WriteLine("Директория не найдена в списке игнорируемых");
+                            Console.WriteLine("\nДиректория не найдена в списке игнорируемых\n");
                             break;
                         }
                         data.Options.RemoveIgnoreDirectories(item.Value);
-                        Console.WriteLine("Директория успешно удалена из игнорируемых");
+                        Console.WriteLine("\nДиректория успешно удалена из игнорируемых\n");
                         break;
                     case "-def":
                     case "--default":
                         if(data.Options.IsAddDefault)
                         {
-                            Console.WriteLine("Ошибка. Игнорируемые директории по умолчанию уже были добавлены");
+                            Console.WriteLine("\nОшибка. Игнорируемые директории по умолчанию уже были добавлены\n");
                         }
                         else
                         {
                             data.Options.SetDefaultIgnores();
-                            Console.WriteLine("Игнорируемые директории по умолчанию успешно добавлены");
+                            Console.WriteLine("\nИгнорируемые директории по умолчанию успешно добавлены\n");
                         }
                         break;
                     case "-rmdef":
@@ -85,15 +87,16 @@ namespace SourceStat.Commands
                         if (data.Options.IsAddDefault)
                         {
                             data.Options.RemoveDefaultIgnores();
-                            Console.WriteLine("Игнорируемые директории по умолчанию успешно удалены");
+                            Console.WriteLine("\nИгнорируемые директории по умолчанию успешно удалены\n");
                         }
                         else
                         {
-                            Console.WriteLine("Ошибка. Игнорируемые директории по умолчанию уже были удалены");
+                            Console.WriteLine("\nОшибка. Игнорируемые директории по умолчанию уже были удалены\n");
                         }
                         break;
                     default:
-                        Console.WriteLine("Неверный ввод");
+                        Console.WriteLine("\nНеверный ввод\n" +
+                            "Для получения дополнительной информации воспользуйтесь командой: ? dir\n");
                         break;
                 }
             }

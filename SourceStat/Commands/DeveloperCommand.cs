@@ -14,6 +14,12 @@ namespace SourceStat.Commands
         public async Task Execute(string[] args, DataCore data)
         {
             await Task.CompletedTask;
+            if (args.Length > 0)
+            {
+                Console.WriteLine("\nФункция не принимает аргументы.\n" +
+                    "Для получения дополнительной информации воспользуйтесь командой: ? developer");
+                return;
+            }
             Console.WriteLine("\n" +
                 "╔══╗╔═══╗╔═══╗╔═══╗╔══╗╔══╗╔╗──╔══╗╔╗╔╗╔═══╗\n" +
                 "║╔═╝║╔══╝║╔═╗║║╔══╝╚═╗║║╔═╝║║──║╔╗║║║║║║╔══╝\n" +

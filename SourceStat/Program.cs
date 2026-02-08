@@ -16,7 +16,12 @@ namespace SourceStat
             {
                 Console.Write($"USER > ");
                 commandLine = Console.ReadLine()!;
-                if (commandLine == "exit") exit = true;
+                commandLine = commandLine.Trim();
+                if (commandLine == "exit")
+                {
+                    exit = true;
+                    continue;
+                }
                 cmd.ExecuteCommand(commandLine, data);
             }
         }

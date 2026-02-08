@@ -9,7 +9,7 @@ namespace SourceStat.Commands
         public string Name => "go";
 
         public string Description => "\n" +
-            "Структура: version \n" +
+            "Структура: go [Аргумент] \n" +
             "Отвечает за вывод текущей версии приложения\n";
 
         public async Task Execute(string[] args, DataCore data)
@@ -17,7 +17,7 @@ namespace SourceStat.Commands
             await Task.CompletedTask;
             if(data.Options.SelectLanguages.Count == 0)
             {
-                Console.WriteLine("Нет выбранных языков");
+                Console.WriteLine("\nНет выбранных языков\n");
             }
             long countFile = 0;
             long countLine = 0;
@@ -43,12 +43,13 @@ namespace SourceStat.Commands
                         case "-directory":
                             if(string.IsNullOrEmpty(item.Value))
                             {
-                                Console.WriteLine("Параметр не может быть пустым");
+                                Console.WriteLine("\nПараметр не может быть пустым.\n" +
+                                    "Для получения дополнительной информации воспользуйтесь командой: ? go\n");
                                 break;
                             }
                             if(!Directory.Exists(item.Value))
                             {
-                                Console.WriteLine("Ошибка при вводе директории");
+                                Console.WriteLine("\nОшибка при вводе директории\n");
                             }
                             foreach (AvailableLanguage lang in data.Options.SelectLanguages)
                             {
@@ -58,7 +59,8 @@ namespace SourceStat.Commands
                             }
                             break;
                         default:
-                            Console.WriteLine("Неверный ввод");
+                            Console.WriteLine("\nНеверный ввод.\n" +
+                            "Для получения дополнительной информации воспользуйтесь командой: ? go\n");
                             break;
                     }
                 }
