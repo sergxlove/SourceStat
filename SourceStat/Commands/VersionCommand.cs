@@ -15,7 +15,7 @@ namespace SourceStat.Commands
         {
             await Task.CompletedTask;
             Console.WriteLine("\n" +
-                "Версия 1.0.0, developer sergxlove, 2025\n" +
+                "Версия 1.0.0, developer sergxlove, 2026\n" +
                 "Все права защищены\n");
         }
     }

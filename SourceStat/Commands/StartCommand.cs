@@ -8,7 +8,9 @@ namespace SourceStat.Commands
     {
         public string Name => "go";
 
-        public string Description => throw new NotImplementedException();
+        public string Description => "\n" +
+            "Структура: version \n" +
+            "Отвечает за вывод текущей версии приложения\n";
 
         public async Task Execute(string[] args, DataCore data)
         {

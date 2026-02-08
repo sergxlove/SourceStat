@@ -7,7 +7,15 @@ namespace SourceStat.Commands
     {
         public string Name => "dir";
 
-        public string Description => throw new NotImplementedException();
+        public string Description => "\n" +
+            "Структура: dir [Аргумент] \n" +
+            "Отвечает за управление игнорируемыми директориями\n" +
+            "Аргументы: \n" +
+            "[Без аргумента]: вывод игнорируемых директорий\n" +
+            "--add(-a) [Параметр]: добавление директории в список игнорируемых\n" +
+            "--delete(-d) [Параметр]: удаление директории из списка игнорируемых\n" +
+            "--defailt(-def) [Параметр]: добавление стандартных директорий в список игнорируемых\n" +
+            "--remove-default(-rmdef) [Параметр]: удаление стандартных директорий из списка игнорируемых\n";
 
         public async Task Execute(string[] args, DataCore data)
         {
