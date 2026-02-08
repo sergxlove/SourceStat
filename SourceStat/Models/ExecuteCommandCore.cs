@@ -11,10 +11,15 @@ namespace SourceStat.Models
             string[] parts = command.Split(' ');
             string cmdName = parts[0];
             string[] args = parts.Skip(1).ToArray();
-            var cmd = Commands.FirstOrDefault(a => a.Name == cmdName);
-            if (cmd != null)
+            ICommand? cmd = Commands.FirstOrDefault(a => a.Name == cmdName);
+            if (cmd is not null)
             {
                 cmd.Execute(args, data);
+            }
+            else
+            {
+                Console.WriteLine($"\nНе удалось распознать команду: {cmdName}. \n" +
+                    $"Для получения дополнительной иформации воспользуйтесь командой: help\n");
             }
         }
 
