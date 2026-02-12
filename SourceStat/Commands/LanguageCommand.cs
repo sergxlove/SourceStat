@@ -22,7 +22,7 @@ namespace SourceStat.Commands
             await Task.CompletedTask;
             if (args.Length == 0)
             {
-                if(!data.Options.SelectLanguages.Any())
+                if (!data.Options.SelectLanguages.Any())
                 {
                     Console.WriteLine("\nНет выбранных языков\n");
                 }
@@ -56,6 +56,14 @@ namespace SourceStat.Commands
                             return;
                         }
                         Console.WriteLine("\nПроизошла ошибка при добавлении\n");
+                        break;
+                    case "-all":
+                        foreach (AvailableLanguage lang in Enum.GetValues<AvailableLanguage>())
+                        {
+                            if (lang == AvailableLanguage.None) continue;
+                            data.Options.AddLanguage(lang);
+                        }
+                        Console.WriteLine("Все доступные языки были успешно выбраны");
                         break;
                     case "-av":
                     case "--available":

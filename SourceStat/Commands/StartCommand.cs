@@ -25,6 +25,7 @@ namespace SourceStat.Commands
             {
                 foreach (AvailableLanguage lang in data.Options.SelectLanguages)
                 {
+                    data.Options.SetCurrentLanguage(lang);
                     countFile = FileChecker.GetCountFiles(Directory.GetCurrentDirectory().ToString(),
                         data.Options);
                     countLine = FileChecker.GetCountLineInFiles(Directory.GetCurrentDirectory().ToString(),
@@ -53,6 +54,7 @@ namespace SourceStat.Commands
                             }
                             foreach (AvailableLanguage lang in data.Options.SelectLanguages)
                             {
+                                data.Options.SetCurrentLanguage(lang);
                                 countFile = FileChecker.GetCountFiles(item.Value, data.Options);
                                 countLine = FileChecker.GetCountLineInFiles(item.Value, data.Options);
                                 Console.WriteLine($"{Enum.GetName(lang)}: Найдено {countFile} файлов, в них {countLine} строк.");

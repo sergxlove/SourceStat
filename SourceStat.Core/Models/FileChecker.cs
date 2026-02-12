@@ -6,16 +6,17 @@
         {
             long fileCount = 0;
             List<string> extensionsAll;
-            foreach (AvailableLanguage lang in options.SelectLanguages)
+            if (options.CurrentLanguage == AvailableLanguage.None)
             {
-                extensionsAll = AvailableExtensions.GetExtensions(lang);
-                foreach (string extensions in extensionsAll)
+                return 0;
+            }
+            extensionsAll = AvailableExtensions.GetExtensions(options.CurrentLanguage);
+            foreach (string extensions in extensionsAll)
+            {
+                foreach (string file in Directory.EnumerateFiles(directory, extensions,
+                    SearchOption.AllDirectories))
                 {
-                    foreach (string file in Directory.EnumerateFiles(directory, extensions,
-                        SearchOption.AllDirectories))
-                    {
-                        if (!IsInIgnoredDir(file, options)) fileCount++;
-                    }
+                    if (!IsInIgnoredDir(file, options)) fileCount++;
                 }
             }
             return fileCount;
@@ -26,19 +27,20 @@
             long lineCount = 0;
             string[] lines;
             List<string> extensionsAll;
-            foreach (AvailableLanguage lang in options.SelectLanguages)
+            if (options.CurrentLanguage == AvailableLanguage.None)
             {
-                extensionsAll = AvailableExtensions.GetExtensions(lang);
-                foreach (string extensions in extensionsAll)
+                return 0;
+            }
+            extensionsAll = AvailableExtensions.GetExtensions(options.CurrentLanguage);
+            foreach (string extensions in extensionsAll)
+            {
+                foreach (string file in Directory.EnumerateFiles(directory, extensions,
+                SearchOption.AllDirectories))
                 {
-                    foreach (string file in Directory.EnumerateFiles(directory, extensions,
-                    SearchOption.AllDirectories))
+                    if (!IsInIgnoredDir(file, options))
                     {
-                        if (!IsInIgnoredDir(file, options))
-                        {
-                            lines = File.ReadAllLines(file);
-                            lineCount += lines.Length;
-                        }
+                        lines = File.ReadAllLines(file);
+                        lineCount += lines.Length;
                     }
                 }
             }
