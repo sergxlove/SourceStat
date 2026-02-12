@@ -4,6 +4,7 @@
     {
         public HashSet<string> IgnoreDirectories { get; private set; }
         public List<AvailableLanguage> SelectLanguages { get; private set; }
+        public AvailableLanguage CurrentLanguage { get; private set; } = AvailableLanguage.None;
         public List<string> DefaultIgnore { get; private set; } = new List<string>()
         {
             "bin", "obj", ".git", ".vs", "Debug", "Release"
@@ -34,6 +35,18 @@
         public void RemoveIgnoreDirectories(string ignoreDirectory)
         {
             IgnoreDirectories.Remove(ignoreDirectory);
+        }
+
+        public void SetCurrentLanguage(AvailableLanguage lang)
+        {
+            if(SelectLanguages.Contains(lang))
+            {
+                CurrentLanguage = lang;
+            }
+            else
+            {
+                CurrentLanguage = AvailableLanguage.None;
+            }
         }
 
         public void SetDefaultIgnores()
