@@ -20,5 +20,65 @@ namespace SourceStat.GraphicalApp
         {
             InitializeComponent();
         }
+
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RemoveDirectoryButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddDirectoryButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClearLanguages_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void SelectAllLanguages_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AnalyzeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LanguagesTab_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DirectoriesTab_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LanguageSearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LanguageSearchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void NewDirectoryTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void NewDirectoryTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
