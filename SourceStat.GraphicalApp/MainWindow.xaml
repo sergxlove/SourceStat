@@ -14,6 +14,7 @@
         FontFamily="Segoe UI">
 
     <Window.Resources>
+        <!-- Цвета темы -->
         <Color x:Key="BgDark">#1A1A1A</Color>
         <Color x:Key="BgMedium">#252525</Color>
         <Color x:Key="BgLight">#2D2D2D</Color>
@@ -25,6 +26,7 @@
         <Color x:Key="TextSecondary">#9D9D9D</Color>
         <Color x:Key="BorderColor">#3A3A3A</Color>
 
+        <!-- Кисти -->
         <SolidColorBrush x:Key="BgDarkBrush" Color="{StaticResource BgDark}"/>
         <SolidColorBrush x:Key="BgMediumBrush" Color="{StaticResource BgMedium}"/>
         <SolidColorBrush x:Key="BgLightBrush" Color="{StaticResource BgLight}"/>
@@ -36,6 +38,7 @@
         <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondary}"/>
         <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
 
+        <!-- Стиль карточки -->
         <Style x:Key="CardStyle" TargetType="Border">
             <Setter Property="Background" Value="{StaticResource BgMediumBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
@@ -49,6 +52,7 @@
             </Setter>
         </Style>
 
+        <!-- Стиль кнопки переключения вкладок -->
         <Style x:Key="TabButtonStyle" TargetType="RadioButton">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
@@ -83,14 +87,16 @@
             </Setter>
         </Style>
 
+        <!-- Стиль основной кнопки -->
         <Style x:Key="PrimaryButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{StaticResource AccentBlueBrush}"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="25,12"/>
+            <Setter Property="Padding" Value="25,0"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="42"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -113,11 +119,13 @@
             </Style.Triggers>
         </Style>
 
+        <!-- Стиль второстепенной кнопки -->
         <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
             <Setter Property="Background" Value="{StaticResource BgLightBrush}"/>
             <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="0,0"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#3A3A3A"/>
@@ -125,13 +133,16 @@
             </Style.Triggers>
         </Style>
 
+        <!-- Стиль текстового поля -->
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="{StaticResource BgLightBrush}"/>
             <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="Padding" Value="10,0"/>
             <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="CaretBrush" Value="{StaticResource AccentBlueBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -149,6 +160,7 @@
             </Setter>
         </Style>
 
+        <!-- Стиль ListBox -->
         <Style TargetType="ListBox">
             <Setter Property="Background" Value="{StaticResource BgLightBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
@@ -173,7 +185,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
+        <!-- Стиль элемента ListBox -->
         <Style TargetType="ListBoxItem">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
@@ -201,23 +214,24 @@
             </Setter>
         </Style>
 
+        <!-- Стиль CheckBox -->
         <Style TargetType="CheckBox">
             <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontSize" Value="11"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="CheckBox">
                         <StackPanel Orientation="Horizontal">
                             <Border x:Name="CheckMarkBorder"
-                                    Width="18" Height="18"
+                                    Width="16" Height="16"
                                     Background="{StaticResource BgLightBrush}"
                                     BorderBrush="{StaticResource BorderBrush}"
                                     BorderThickness="1"
-                                    CornerRadius="4"
-                                    Margin="0,0,8,0">
+                                    CornerRadius="3"
+                                    Margin="0,0,4,0">
                                 <Path x:Name="CheckMark"
-                                      Width="10" Height="8"
+                                      Width="8" Height="6"
                                       Stretch="Fill"
                                       Fill="{StaticResource AccentBlueBrush}"
                                       Data="M 0,4 L 3,7 L 7,0"
@@ -235,11 +249,13 @@
             </Setter>
         </Style>
 
+        <!-- Стиль для статистических карточек -->
         <Style x:Key="StatCardStyle" TargetType="Border">
             <Setter Property="Background" Value="{StaticResource BgLightBrush}"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="15"/>
         </Style>
+
     </Window.Resources>
 
     <Grid Margin="20">
@@ -250,6 +266,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Заголовок -->
         <Border Grid.Row="0" 
                 CornerRadius="8"
                 Margin="0,0,0,20">
@@ -259,86 +276,62 @@
                     <GradientStop Color="#005A9E" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
-            <TextBlock FontSize="32" FontWeight="Light" Foreground="White" HorizontalAlignment="Center" Margin="0,15">
-                <Run Text="SOURCE" FontWeight="Light"/>
+            <TextBlock FontSize="32" FontWeight="Light" Foreground="White" Margin="15,15">
+                <Run Text="SOURCE" FontWeight="SemiBold"/>
                 <Run Text="STAT" FontWeight="SemiBold"/>
-                <Run Text=" - Счетчик строк кода" FontSize="18" Foreground="#CCCCCC"/>
             </TextBlock>
         </Border>
 
+        <!-- Панель управления -->
         <Border Grid.Row="1" 
                 Style="{StaticResource CardStyle}"
                 Margin="0,0,0,20">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="280"/>
-                </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="📁 ПАПКА ДЛЯ АНАЛИЗА" 
+                           Foreground="{StaticResource AccentBlueBrush}"
+                           FontSize="11"
+                           FontWeight="Bold"
+                           Margin="0,0,0,5"/>
 
-                <StackPanel Grid.Column="0" Margin="0,0,20,0">
-                    <TextBlock Text="📁 ПАПКА ДЛЯ АНАЛИЗА" 
-                               Foreground="{StaticResource AccentBlueBrush}"
-                               FontSize="11"
-                               FontWeight="Bold"
-                               Margin="0,0,0,5"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox x:Name="DirectoryPathTextBox"
-                                 Grid.Column="0"
-                                 Text=""
-                                 IsReadOnly="True"
-                                 Margin="0,0,10,0"/>
-                        <Button Grid.Column="1"
-                                Content="Обзор"
-                                Style="{StaticResource SecondaryButtonStyle}"
-                                Padding="20,8"
-                                Click="BrowseButton_Click"/>
-                    </Grid>
-                </StackPanel>
+                <!-- Поле ввода и кнопки Обзор и Анализ -->
+                <Grid Height="42">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="160"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1"
-                        x:Name="AnalyzeButton"
-                        Content="▶ АНАЛИЗИРОВАТЬ"
-                        Style="{StaticResource PrimaryButtonStyle}"
-                        Width="160"
-                        Height="42"
-                        FontSize="14"
-                        FontWeight="Bold"
-                        Click="AnalyzeButton_Click"
-                        Margin="0,0,20,0"/>
+                    <TextBox x:Name="DirectoryPathTextBox"
+                             Grid.Column="0"
+                             Text=""
+                             IsReadOnly="True"
+                             Margin="0,0,10,0"/>
 
-                <Border Grid.Column="2"
-                        Background="{StaticResource BgLightBrush}"
-                        CornerRadius="6"
-                        Padding="12">
-                    <StackPanel>
-                        <TextBlock Text="⚙️ БЫСТРЫЕ НАСТРОЙКИ" 
-                                   Foreground="{StaticResource AccentBlueBrush}"
-                                   FontSize="10"
-                                   FontWeight="Bold"
-                                   Margin="0,0,0,8"/>
-                        <CheckBox x:Name="IncludeSubdirectoriesCheckBox"
-                                  Content="Включая подпапки"
-                                  IsChecked="True"/>
-                        <CheckBox x:Name="ShowSummaryOnlyCheckBox"
-                                  Content="Только сводка"
-                                  IsChecked="True"
-                                  Margin="0,8,0,0"/>
-                    </StackPanel>
-                </Border>
-            </Grid>
+                    <Button Grid.Column="1"
+                            Content="Обзор"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Click="BrowseButton_Click"/>
+
+                    <Button Grid.Column="3"
+                            x:Name="AnalyzeButton"
+                            Content="▶ АНАЛИЗ"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Width="160"
+                            Height="42"
+                            Click="AnalyzeButton_Click"/>
+                </Grid>
+            </StackPanel>
         </Border>
 
+        <!-- Основной контент с боковой панелью -->
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="350"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+            <!-- Боковая панель с вкладками -->
             <Border Grid.Column="0"
                     Style="{StaticResource CardStyle}"
                     Margin="0,0,10,0">
@@ -348,6 +341,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
+                    <!-- Кнопки переключения вкладок -->
                     <StackPanel Grid.Row="0" 
                                 Orientation="Horizontal" 
                                 HorizontalAlignment="Stretch"
@@ -367,6 +361,7 @@
                                      Checked="DirectoriesTab_Checked"/>
                     </StackPanel>
 
+                    <!-- Содержимое вкладки Языки -->
                     <Border x:Name="LanguagesTabContent"
                             Grid.Row="1"
                             Background="{StaticResource BgLightBrush}"
@@ -383,17 +378,28 @@
                             <TextBox x:Name="LanguageSearchTextBox"
                                      Grid.Row="0"
                                      Text="Поиск языков..."
-                                     Padding="8,6"
-                                     Margin="0,0,0,10"
+                                     Padding="8,0"
+                                     Height="32"
                                      FontSize="12"
+                                     Margin="0,0,0,10"
                                      GotFocus="LanguageSearchTextBox_GotFocus"
                                      LostFocus="LanguageSearchTextBox_LostFocus"/>
 
                             <ListBox x:Name="LanguagesListBox"
                                      Grid.Row="1"
-                                     Height="300"
                                      SelectionMode="Multiple"
-                                     Margin="0,0,0,10"/>
+                                     Margin="0,0,0,10">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Ellipse Width="10" Height="10" 
+                                                     Margin="0,0,8,0"/>
+                                            <TextBlock Text="{Binding Name}" 
+                                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
 
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
@@ -403,20 +409,21 @@
                                 <Button Grid.Column="0"
                                         Content="Выбрать все"
                                         Style="{StaticResource SecondaryButtonStyle}"
-                                        Padding="5,4"
+                                        Height="28"
                                         FontSize="11"
                                         Margin="0,0,5,0"
                                         Click="SelectAllLanguages_Click"/>
                                 <Button Grid.Column="1"
                                         Content="Очистить"
                                         Style="{StaticResource SecondaryButtonStyle}"
-                                        Padding="5,4"
+                                        Height="28"
                                         FontSize="11"
                                         Click="ClearLanguages_Click"/>
                             </Grid>
                         </Grid>
                     </Border>
 
+                    <!-- Содержимое вкладки Директории -->
                     <Border x:Name="DirectoriesTabContent"
                             Grid.Row="1"
                             Background="{StaticResource BgLightBrush}"
@@ -433,15 +440,15 @@
                             <TextBox x:Name="NewDirectoryTextBox"
                                      Grid.Row="0"
                                      Text="Добавить папку..."
-                                     Padding="8,6"
-                                     Margin="0,0,0,10"
+                                     Padding="8,0"
+                                     Height="32"
                                      FontSize="12"
+                                     Margin="0,0,0,10"
                                      GotFocus="NewDirectoryTextBox_GotFocus"
                                      LostFocus="NewDirectoryTextBox_LostFocus"/>
 
                             <ListBox x:Name="IgnoredDirectoriesListBox"
                                      Grid.Row="1"
-                                     Height="300"
                                      Margin="0,0,0,10"/>
 
                             <StackPanel Grid.Row="2"
@@ -449,15 +456,17 @@
                                         HorizontalAlignment="Stretch">
                                 <Button Content="Добавить"
                                         Style="{StaticResource SecondaryButtonStyle}"
-                                        Padding="10,4"
+                                        Height="28"
                                         FontSize="11"
+                                        Padding="10,0"
                                         Margin="0,0,5,0"
                                         HorizontalAlignment="Left"
                                         Click="AddDirectoryButton_Click"/>
                                 <Button Content="Удалить"
                                         Style="{StaticResource SecondaryButtonStyle}"
-                                        Padding="10,4"
+                                        Height="28"
                                         FontSize="11"
+                                        Padding="10,0"
                                         HorizontalAlignment="Right"
                                         Click="RemoveDirectoryButton_Click"/>
                             </StackPanel>
@@ -466,6 +475,7 @@
                 </Grid>
             </Border>
 
+            <!-- Правая панель - результаты -->
             <Border Grid.Column="1"
                     Style="{StaticResource CardStyle}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -582,6 +592,7 @@
             </Border>
         </Grid>
 
+        <!-- Статус бар -->
         <Border Grid.Row="3"
                 Background="{StaticResource BgMediumBrush}"
                 CornerRadius="6"
