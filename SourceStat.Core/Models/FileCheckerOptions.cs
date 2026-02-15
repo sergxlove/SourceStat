@@ -27,6 +27,12 @@
             SelectLanguages.Remove(language); 
         }
 
+        public void RemoveAllLanguage()
+        {
+            SelectLanguages.Clear();
+            CurrentLanguage = AvailableLanguage.None;
+        }
+
         public void AddIgnoreDirectories(string ignoreDirectory)
         {
             IgnoreDirectories.Add(ignoreDirectory);

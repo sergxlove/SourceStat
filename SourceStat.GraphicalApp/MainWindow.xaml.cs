@@ -1,14 +1,8 @@
 ﻿using SourceStat.Core.Models;
-using System.Text;
+using SourceStat.GraphicalApp.Models;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace SourceStat.GraphicalApp
 {
@@ -17,23 +11,29 @@ namespace SourceStat.GraphicalApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private FileCheckerOptions _options;
+        private List<LanguageWithCheckBox> _allLanguages;
+        private List<string> _allIgnoreDirectory; 
         public MainWindow()
         {
             InitializeComponent();
+            _allLanguages = new List<LanguageWithCheckBox>();
+            _allIgnoreDirectory = new List<string>();
             InitializeLanguages();
+            _options = new FileCheckerOptions();
         }
         
         public void InitializeLanguages()
         {
             LanguagesListBox.Items.Clear();
-
             foreach (AvailableLanguage lang in Enum.GetValues(typeof(AvailableLanguage)))
             {
                 if (lang != AvailableLanguage.None)
                 {
-                    LanguagesListBox.Items.Add(lang);
+                    _allLanguages.Add(new LanguageWithCheckBox() { Name = lang.ToString(), IsSelected = false });
                 }
             }
+            LanguagesListBox.ItemsSource = _allLanguages;
         }
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
@@ -43,22 +43,52 @@ namespace SourceStat.GraphicalApp
 
         private void RemoveDirectoryButton_Click(object sender, RoutedEventArgs e)
         {
-
+            string dir = NewDirectoryTextBox.Text.Trim();
+            _allIgnoreDirectory.Remove(dir);
+            IgnoredDirectoriesListBox.ItemsSource = null;
+            IgnoredDirectoriesListBox.ItemsSource = _allIgnoreDirectory;
+            NewDirectoryTextBox.Text = "Добавить папку...";
         }
 
         private void AddDirectoryButton_Click(object sender, RoutedEventArgs e)
         {
-
+            string dir = NewDirectoryTextBox.Text.Trim();
+            bool isFind = false;
+            foreach (string ignoreDir in _allIgnoreDirectory)
+            {
+                if(ignoreDir == dir)
+                {
+                    isFind = true;
+                    break;
+                }
+            }
+            if (!isFind)
+            {
+                _allIgnoreDirectory.Add(dir);
+                IgnoredDirectoriesListBox.ItemsSource = null;
+                IgnoredDirectoriesListBox.ItemsSource = _allIgnoreDirectory;
+                NewDirectoryTextBox.Text = "Добавить папку...";
+            }
         }
 
         private void ClearLanguages_Click(object sender, RoutedEventArgs e)
         {
-            
+            foreach (LanguageWithCheckBox lang in _allLanguages)
+            {
+                if (lang.IsSelected) lang.IsSelected = false;
+            }
+            LanguagesListBox.ItemsSource = null;
+            LanguagesListBox.ItemsSource = _allLanguages;
         }
 
         private void SelectAllLanguages_Click(object sender, RoutedEventArgs e)
         {
-
+            foreach (LanguageWithCheckBox lang in _allLanguages) 
+            {
+                if(!lang.IsSelected) lang.IsSelected = true;
+            }
+            LanguagesListBox.ItemsSource = null;
+            LanguagesListBox.ItemsSource = _allLanguages;
         }
 
         private void AnalyzeButton_Click(object sender, RoutedEventArgs e)
@@ -81,18 +111,7 @@ namespace SourceStat.GraphicalApp
             {
                 LanguagesTabContent.Visibility = Visibility.Collapsed;
                 DirectoriesTabContent.Visibility = Visibility.Visible;
-
             }
-        }
-
-        private void LanguageSearchTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            LanguageSearchTextBox.Text = string.Empty;
-        }
-
-        private void LanguageSearchTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            LanguageSearchTextBox.Text = "Поиск языков...";
         }
 
         private void NewDirectoryTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -102,7 +121,10 @@ namespace SourceStat.GraphicalApp
 
         private void NewDirectoryTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            NewDirectoryTextBox.Text = "Добавить папку...";
+            if(NewDirectoryTextBox.Text == string.Empty)
+            {
+                NewDirectoryTextBox.Text = "Добавить папку...";
+            }
         }
     }
 }
