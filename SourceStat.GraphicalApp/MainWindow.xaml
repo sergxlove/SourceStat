@@ -14,7 +14,6 @@
         FontFamily="Segoe UI">
 
     <Window.Resources>
-        <!-- Цвета темы -->
         <Color x:Key="BgDark">#1A1A1A</Color>
         <Color x:Key="BgMedium">#252525</Color>
         <Color x:Key="BgLight">#2D2D2D</Color>
@@ -26,7 +25,6 @@
         <Color x:Key="TextSecondary">#9D9D9D</Color>
         <Color x:Key="BorderColor">#3A3A3A</Color>
 
-        <!-- Кисти -->
         <SolidColorBrush x:Key="BgDarkBrush" Color="{StaticResource BgDark}"/>
         <SolidColorBrush x:Key="BgMediumBrush" Color="{StaticResource BgMedium}"/>
         <SolidColorBrush x:Key="BgLightBrush" Color="{StaticResource BgLight}"/>
@@ -38,7 +36,6 @@
         <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondary}"/>
         <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
 
-        <!-- Стиль карточки -->
         <Style x:Key="CardStyle" TargetType="Border">
             <Setter Property="Background" Value="{StaticResource BgMediumBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
@@ -52,7 +49,6 @@
             </Setter>
         </Style>
 
-        <!-- Стиль кнопки переключения вкладок -->
         <Style x:Key="TabButtonStyle" TargetType="RadioButton">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
@@ -87,7 +83,6 @@
             </Setter>
         </Style>
 
-        <!-- Стиль основной кнопки -->
         <Style x:Key="PrimaryButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{StaticResource AccentBlueBrush}"/>
             <Setter Property="Foreground" Value="White"/>
@@ -119,7 +114,6 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Стиль второстепенной кнопки -->
         <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
             <Setter Property="Background" Value="{StaticResource BgLightBrush}"/>
             <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
@@ -133,7 +127,6 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Стиль текстового поля -->
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="{StaticResource BgLightBrush}"/>
             <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
@@ -160,7 +153,6 @@
             </Setter>
         </Style>
 
-        <!-- Стиль ListBox -->
         <Style TargetType="ListBox">
             <Setter Property="Background" Value="{StaticResource BgLightBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
@@ -186,12 +178,12 @@
             </Setter>
         </Style>
 
-        <!-- Стиль элемента ListBox -->
         <Style TargetType="ListBoxItem">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-            <Setter Property="Padding" Value="10,6"/>
-            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="5,3"/>
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
@@ -199,7 +191,8 @@
                                 Background="{TemplateBinding Background}"
                                 Padding="{TemplateBinding Padding}"
                                 CornerRadius="4">
-                            <ContentPresenter/>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -214,27 +207,27 @@
             </Setter>
         </Style>
 
-        <!-- Стиль CheckBox -->
         <Style TargetType="CheckBox">
             <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="2"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="CheckBox">
                         <StackPanel Orientation="Horizontal">
                             <Border x:Name="CheckMarkBorder"
-                                    Width="16" Height="16"
+                                    Width="18" Height="18"
                                     Background="{StaticResource BgLightBrush}"
                                     BorderBrush="{StaticResource BorderBrush}"
                                     BorderThickness="1"
                                     CornerRadius="3"
-                                    Margin="0,0,4,0">
+                                    Margin="0,0,8,0">
                                 <Path x:Name="CheckMark"
-                                      Width="8" Height="6"
+                                      Width="10" Height="8"
                                       Stretch="Fill"
                                       Fill="{StaticResource AccentBlueBrush}"
-                                      Data="M 0,4 L 3,7 L 7,0"
+                                      Data="M 0,4 L 4,8 L 9,0"
                                       Visibility="Collapsed"/>
                             </Border>
                             <ContentPresenter/>
@@ -243,13 +236,15 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
                             </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="CheckMarkBorder" Property="Background" Value="#3A3A3A"/>
+                            </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <!-- Стиль для статистических карточек -->
         <Style x:Key="StatCardStyle" TargetType="Border">
             <Setter Property="Background" Value="{StaticResource BgLightBrush}"/>
             <Setter Property="CornerRadius" Value="8"/>
@@ -266,7 +261,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
         <Border Grid.Row="0" 
                 CornerRadius="8"
                 Margin="0,0,0,20">
@@ -282,7 +276,6 @@
             </TextBlock>
         </Border>
 
-        <!-- Панель управления -->
         <Border Grid.Row="1" 
                 Style="{StaticResource CardStyle}"
                 Margin="0,0,0,20">
@@ -293,7 +286,6 @@
                            FontWeight="Bold"
                            Margin="0,0,0,5"/>
 
-                <!-- Поле ввода и кнопки Обзор и Анализ -->
                 <Grid Height="42">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -324,14 +316,12 @@
             </StackPanel>
         </Border>
 
-        <!-- Основной контент с боковой панелью -->
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="350"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Боковая панель с вкладками -->
             <Border Grid.Column="0"
                     Style="{StaticResource CardStyle}"
                     Margin="0,0,10,0">
@@ -341,7 +331,6 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Кнопки переключения вкладок -->
                     <StackPanel Grid.Row="0" 
                                 Orientation="Horizontal" 
                                 HorizontalAlignment="Stretch"
@@ -361,7 +350,6 @@
                                      Checked="DirectoriesTab_Checked"/>
                     </StackPanel>
 
-                    <!-- Содержимое вкладки Языки -->
                     <Border x:Name="LanguagesTabContent"
                             Grid.Row="1"
                             Background="{StaticResource BgLightBrush}"
@@ -375,28 +363,20 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <TextBox x:Name="LanguageSearchTextBox"
-                                     Grid.Row="0"
-                                     Text="Поиск языков..."
-                                     Padding="8,0"
-                                     Height="32"
-                                     FontSize="12"
-                                     Margin="0,0,0,10"
-                                     GotFocus="LanguageSearchTextBox_GotFocus"
-                                     LostFocus="LanguageSearchTextBox_LostFocus"/>
-
                             <ListBox x:Name="LanguagesListBox"
                                      Grid.Row="1"
-                                     SelectionMode="Multiple"
-                                     Margin="0,0,0,10">
+                                     Margin="0,0,0,10"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     SelectionMode="Single">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Ellipse Width="10" Height="10" 
-                                                     Margin="0,0,8,0"/>
-                                            <TextBlock Text="{Binding Name}" 
-                                                       Foreground="{StaticResource TextPrimaryBrush}"/>
-                                        </StackPanel>
+                                        <CheckBox Content="{Binding}" 
+                                                  IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                                  Foreground="{StaticResource TextPrimaryBrush}"
+                                                  FontSize="12"
+                                                  Margin="2"
+                                                  Padding="2"/>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
@@ -423,7 +403,6 @@
                         </Grid>
                     </Border>
 
-                    <!-- Содержимое вкладки Директории -->
                     <Border x:Name="DirectoriesTabContent"
                             Grid.Row="1"
                             Background="{StaticResource BgLightBrush}"
@@ -475,7 +454,6 @@
                 </Grid>
             </Border>
 
-            <!-- Правая панель - результаты -->
             <Border Grid.Column="1"
                     Style="{StaticResource CardStyle}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -592,7 +570,6 @@
             </Border>
         </Grid>
 
-        <!-- Статус бар -->
         <Border Grid.Row="3"
                 Background="{StaticResource BgMediumBrush}"
                 CornerRadius="6"
