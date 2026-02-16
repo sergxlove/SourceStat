@@ -1,4 +1,5 @@
-﻿using SourceStat.Core.Models;
+﻿using Microsoft.Win32;
+using SourceStat.Core.Models;
 using SourceStat.GraphicalApp.Models;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,7 +39,13 @@ namespace SourceStat.GraphicalApp
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var dialog = new OpenFolderDialog();
+            dialog.Title = "Выберите папку для анализа";
+            if (dialog.ShowDialog() == true)
+            {
+                DirectoryPathTextBox.Text = dialog.FolderName;
+                StatusTextBlock.Text = $"Выбрана папка: {dialog.FolderName}";
+            }
         }
 
         private void RemoveDirectoryButton_Click(object sender, RoutedEventArgs e)
