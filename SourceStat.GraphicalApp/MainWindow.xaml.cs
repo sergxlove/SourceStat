@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using SourceStat.Core.Models;
 using SourceStat.GraphicalApp.Models;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +19,7 @@ namespace SourceStat.GraphicalApp
         private List<LanguageWithCheckBox> _allLanguages;
         private List<string> _allIgnoreDirectory;
         private bool _isAdded = false;
+        private bool _isAnalyzing = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -101,7 +103,6 @@ namespace SourceStat.GraphicalApp
             {
                 if(!lang.IsSelected)
                 {
-                    _options.AddLanguage(Enum.Parse<AvailableLanguage>(lang.Name));
                     lang.IsSelected = true;
                 }
             }
@@ -150,12 +151,18 @@ namespace SourceStat.GraphicalApp
             }
         }
 
-        private void AnalyzeButton_Click(object sender, RoutedEventArgs e)
+        private async void AnalyzeButton_Click(object sender, RoutedEventArgs e)
         {
+            if (_isAnalyzing) return;
             try
             {
-                long countFile = 0;
-                long countLine = 0;
+                foreach (LanguageWithCheckBox lang in _allLanguages)
+                {
+                    if (lang.IsSelected)
+                    {
+                        _options.AddLanguage(Enum.Parse<AvailableLanguage>(lang.Name));
+                    }
+                }
                 string folderPath = DirectoryPathTextBox.Text;
                 if (string.IsNullOrWhiteSpace(folderPath))
                 {
@@ -167,31 +174,42 @@ namespace SourceStat.GraphicalApp
                     StatusTextBlock.Text = "Ошибка при анализе. Указанной директории не существует";
                     return;
                 }
-                StatusTextBlock.Text = "Анализ...";
-                var languages = new List<LanguageStat>();
-                foreach(AvailableLanguage lang in _options.SelectLanguages)
+                Stopwatch stopwatch = new Stopwatch();
+                await SetAnalyzingState(true);
+                stopwatch.Start();
+                var languages = await Task.Run(() =>
                 {
-                    _options.SetCurrentLanguage(lang);
-                    countFile = FileChecker.GetCountFiles(folderPath, _options);
-                    countLine = FileChecker.GetCountLineInFiles(folderPath, _options);
-                    languages.Add(new LanguageStat
+                    var result = new List<LanguageStat>();
+                    foreach (AvailableLanguage lang in _options.SelectLanguages)
                     {
-                        Name = lang.ToString(),
-                        FilesCount = countFile,
-                        LinesCount = countLine,
-                        Color = "#9B4F96"
-                    });
-                }
+                        _options.SetCurrentLanguage(lang);
+                        long countFile = FileChecker.GetCountFiles(folderPath, _options);
+                        long countLine = FileChecker.GetCountLineInFiles(folderPath, _options);
+                        result.Add(new LanguageStat
+                        {
+                            Name = lang.ToString(),
+                            FilesCount = countFile,
+                            LinesCount = countLine,
+                            Color = "#9B4F96"
+                        });
+                    }
+                    return result;
+                });
+                stopwatch.Stop();
                 TotalFilesText.Text = languages.Sum(l => l.FilesCount).ToString();
                 TotalLinesText.Text = languages.Sum(l => l.LinesCount).ToString();
                 LanguagesCountText.Text = languages.Count.ToString();
-                ElapsedTimeText.Text = "0.5 с";
+                ElapsedTimeText.Text = $"{stopwatch.Elapsed.Seconds} с";
                 UpdateLanguageBars(languages);
+                await SetAnalyzingState(false);
                 StatusTextBlock.Text = "Анализ завершен";
+                _options.SelectLanguages.Clear();
             }
             catch
             {
                 StatusTextBlock.Text = "Ошибка при анализе. Попробуйте еще раз";
+                _options.SelectLanguages.Clear();
+                await SetAnalyzingState(false);
             }
         }
 
@@ -243,7 +261,7 @@ namespace SourceStat.GraphicalApp
                 TextBlock nameBlock = new TextBlock();
                 nameBlock.Text = lang.Name;
                 nameBlock.Foreground = FindResource("TextPrimaryBrush") as SolidColorBrush;
-                nameBlock.FontSize = 14;
+                nameBlock.FontSize = 17;
                 nameBlock.FontWeight = FontWeights.SemiBold;
                 nameBlock.VerticalAlignment = VerticalAlignment.Center;
                 Grid.SetColumn(nameBlock, 0);
@@ -251,7 +269,7 @@ namespace SourceStat.GraphicalApp
                 TextBlock statsBlock = new TextBlock();
                 statsBlock.Text = $"{lang.FilesCount} файлов, {lang.LinesCount} строк";
                 statsBlock.Foreground = FindResource("TextSecondaryBrush") as SolidColorBrush;
-                statsBlock.FontSize = 12;
+                statsBlock.FontSize = 17;
                 statsBlock.VerticalAlignment = VerticalAlignment.Center;
                 statsBlock.HorizontalAlignment = HorizontalAlignment.Right;
                 Grid.SetColumn(statsBlock, 1);
@@ -259,6 +277,33 @@ namespace SourceStat.GraphicalApp
                 langContainer.Child = grid;
                 LanguageBarsPanel.Children.Add(langContainer);
             }
+        }
+
+        private async Task SetAnalyzingState(bool isAnalyzing)
+        {
+            _isAnalyzing = isAnalyzing;
+
+            await Dispatcher.InvokeAsync(() =>
+            {
+                AnalyzeButton.IsEnabled = !isAnalyzing;
+                BrowseButton.IsEnabled = !isAnalyzing;
+                if (AnalyzeButton.Template.FindName("contentPresenter", AnalyzeButton) is ContentPresenter contentPresenter &&
+                    AnalyzeButton.Template.FindName("spinner", AnalyzeButton) is Border spinner)
+                {
+                    contentPresenter.Visibility = isAnalyzing ? Visibility.Collapsed : Visibility.Visible;
+                    spinner.Visibility = isAnalyzing ? Visibility.Visible : Visibility.Collapsed;
+                }
+                if (isAnalyzing)
+                {
+                    StatusTextBlock.Text = "Анализ... Пожалуйста, подождите";
+                    StatusIndicator.Fill = FindResource("AccentOrangeBrush") as SolidColorBrush;
+                }
+                else
+                {
+                    StatusTextBlock.Text = "Готов к анализу";
+                    StatusIndicator.Fill = FindResource("AccentGreenBrush") as SolidColorBrush;
+                }
+            });
         }
     }
 }
