@@ -16,7 +16,8 @@ namespace SourceStat.GraphicalApp
     {
         private FileCheckerOptions _options;
         private List<LanguageWithCheckBox> _allLanguages;
-        private List<string> _allIgnoreDirectory; 
+        private List<string> _allIgnoreDirectory;
+        private bool _isAdded = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -53,6 +54,7 @@ namespace SourceStat.GraphicalApp
         private void RemoveDirectoryButton_Click(object sender, RoutedEventArgs e)
         {
             string dir = NewDirectoryTextBox.Text.Trim();
+            _options.RemoveIgnoreDirectories(dir);  
             _allIgnoreDirectory.Remove(dir);
             IgnoredDirectoriesListBox.ItemsSource = null;
             IgnoredDirectoriesListBox.ItemsSource = _allIgnoreDirectory;
@@ -63,6 +65,7 @@ namespace SourceStat.GraphicalApp
         {
             string dir = NewDirectoryTextBox.Text.Trim();
             bool isFind = false;
+            if (dir == "Добавить папку...") return;
             foreach (string ignoreDir in _allIgnoreDirectory)
             {
                 if(ignoreDir == dir)
@@ -73,6 +76,7 @@ namespace SourceStat.GraphicalApp
             }
             if (!isFind)
             {
+                _options.AddIgnoreDirectories(dir);
                 _allIgnoreDirectory.Add(dir);
                 IgnoredDirectoriesListBox.ItemsSource = null;
                 IgnoredDirectoriesListBox.ItemsSource = _allIgnoreDirectory;
@@ -88,22 +92,70 @@ namespace SourceStat.GraphicalApp
             }
             LanguagesListBox.ItemsSource = null;
             LanguagesListBox.ItemsSource = _allLanguages;
+            _options.SelectLanguages.Clear();
         }
 
         private void SelectAllLanguages_Click(object sender, RoutedEventArgs e)
         {
             foreach (LanguageWithCheckBox lang in _allLanguages) 
             {
-                if(!lang.IsSelected) lang.IsSelected = true;
+                if(!lang.IsSelected)
+                {
+                    _options.AddLanguage(Enum.Parse<AvailableLanguage>(lang.Name));
+                    lang.IsSelected = true;
+                }
             }
             LanguagesListBox.ItemsSource = null;
             LanguagesListBox.ItemsSource = _allLanguages;
+        }
+
+        private void DefaultDirectories_Click(object sender, RoutedEventArgs e)
+        {
+            if(_isAdded)
+            {
+                _isAdded = false;
+                DefaultDirButton.Content = "Добавить стандартные";
+                foreach (string defDir in _options.DefaultIgnore)
+                {
+                    _options.RemoveIgnoreDirectories(defDir);
+                    _allIgnoreDirectory.Remove(defDir);
+                }
+                IgnoredDirectoriesListBox.ItemsSource = null;
+                IgnoredDirectoriesListBox.ItemsSource = _allIgnoreDirectory;
+            }
+            else
+            {
+                _isAdded = true;
+                DefaultDirButton.Content = "Удалить стандартные";
+                bool isFind;
+                foreach(string defDir in _options.DefaultIgnore)
+                {
+                    isFind = false;
+                    foreach (string ignoreDir in _allIgnoreDirectory)
+                    {
+                        if (ignoreDir == defDir)
+                        {
+                            isFind = true;
+                            break;
+                        }
+                    }
+                    if (!isFind)
+                    {
+                        _options.AddIgnoreDirectories(defDir);
+                        _allIgnoreDirectory.Add(defDir);
+                    }
+                }
+                IgnoredDirectoriesListBox.ItemsSource = null;
+                IgnoredDirectoriesListBox.ItemsSource = _allIgnoreDirectory;
+            }
         }
 
         private void AnalyzeButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                long countFile = 0;
+                long countLine = 0;
                 string folderPath = DirectoryPathTextBox.Text;
                 if (string.IsNullOrWhiteSpace(folderPath))
                 {
@@ -116,45 +168,20 @@ namespace SourceStat.GraphicalApp
                     return;
                 }
                 StatusTextBlock.Text = "Анализ...";
-
                 var languages = new List<LanguageStat>();
-
-                languages.Add(new LanguageStat
+                foreach(AvailableLanguage lang in _options.SelectLanguages)
                 {
-                    Name = "C#",
-                    FilesCount = 42,
-                    LinesCount = 3520,
-                    Percentage = 45.5,
-                    Color = "#9B4F96"
-                });
-
-                languages.Add(new LanguageStat
-                {
-                    Name = "JavaScript",
-                    FilesCount = 28,
-                    LinesCount = 2150,
-                    Percentage = 28.3,
-                    Color = "#F1E05A"
-                });
-
-                languages.Add(new LanguageStat
-                {
-                    Name = "HTML",
-                    FilesCount = 15,
-                    LinesCount = 980,
-                    Percentage = 15.2,
-                    Color = "#E34C26"
-                });
-
-                languages.Add(new LanguageStat
-                {
-                    Name = "CSS",
-                    FilesCount = 12,
-                    LinesCount = 850,
-                    Percentage = 11.0,
-                    Color = "#563D7C"
-                });
-
+                    _options.SetCurrentLanguage(lang);
+                    countFile = FileChecker.GetCountFiles(folderPath, _options);
+                    countLine = FileChecker.GetCountLineInFiles(folderPath, _options);
+                    languages.Add(new LanguageStat
+                    {
+                        Name = lang.ToString(),
+                        FilesCount = countFile,
+                        LinesCount = countLine,
+                        Color = "#9B4F96"
+                    });
+                }
                 TotalFilesText.Text = languages.Sum(l => l.FilesCount).ToString();
                 TotalLinesText.Text = languages.Sum(l => l.LinesCount).ToString();
                 LanguagesCountText.Text = languages.Count.ToString();

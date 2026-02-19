@@ -448,6 +448,14 @@
                                         Padding="10,0"
                                         HorizontalAlignment="Right"
                                         Click="RemoveDirectoryButton_Click"/>
+                                <Button x:Name="DefaultDirButton"
+                                        Content="Добавить стандартные"
+                                        Style="{StaticResource SecondaryButtonStyle}"
+                                        Height="28"
+                                        FontSize="11"
+                                        Padding="10,0"
+                                        HorizontalAlignment="Right"
+                                        Click="DefaultDirectories_Click"/>
                             </StackPanel>
                         </Grid>
                     </Border>
