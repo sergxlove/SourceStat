@@ -3,9 +3,8 @@
     public class LanguageStat
     {
         public string Name { get; set; } = string.Empty;
-        public int FilesCount { get; set; }
-        public int LinesCount { get; set; }
-        public double Percentage { get; set; }
+        public long FilesCount { get; set; }
+        public long LinesCount { get; set; }
         public string Color { get; set; } = string.Empty;
     }
 }
