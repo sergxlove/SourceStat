@@ -15,5 +15,5 @@ The main features include a recursive search of all subdirectories in the select
 
 ## Preview
 
-
+![preview](https://github.com/sergxlove/SourceStat/blob/master/resourses/preview.png)
 
